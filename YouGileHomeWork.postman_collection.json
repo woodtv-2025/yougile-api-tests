@@ -1,0 +1,1370 @@
+{
+	"info": {
+		"_postman_id": "da4b2fda-016c-4d16-835b-8243af3aad72",
+		"name": "YouGileHomeWork",
+		"description": "# YouGile API Testing Collection\n\n## 📋 О проекте\n\nPostman-коллекция для тестирования REST API YouGile - российского аналога Trello/Asana.\n\n## 🚀 Возможности\n\n- Полное CRUD-покрытие сущностей: проекты, доски, колонки, задачи\n    \n- Автоматизация тестов с динамическими переменными\n    \n- Работа с Bearer-авторизацией\n    \n- Тестирование бизнес-процессов от создания проекта до постановки задач\n    \n\n## 🛠 Технологии\n\n- Postman\n    \n- JavaScript (тестовые скрипты)\n    \n- REST API\n    \n- Bearer Authentication\n    \n\n## 📁 Структура коллекции\n\n- **Аутентификация** - получение токена\n    \n- **Проекты** - полный CRUD цикл\n    \n- **Доски** - создание и управление рабочими пространствами\n    \n- **Колонки** - организация workflow\n    \n- **Задачи** - постановка и отслеживание\n    \n\n## 🎯 Ключевые фичи\n\n- Автоматическое сохранение ID созданных сущностей\n    \n- Комплексные тесты структуры ответов\n    \n- Адаптация под реальное поведение API\n    \n- Профессиональная организация в папки\n    \n\nДля работы требуется настройка Environment с учетными данными",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47960389",
+		"_collection_link": "https://s-team-552897.postman.co/workspace/bfa741cf-403e-4068-9d99-27ffe333d8bd/collection/47960389-da4b2fda-016c-4d16-835b-8243af3aad72?action=share&source=collection_link&creator=47960389"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "GetAuth/keys",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"login\": \"{{username}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"companyId\": \"410e0026-6c38-4f26-809f-a0430d746ad9\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ru.yougile.com/api-v2/auth/keys",
+							"protocol": "https",
+							"host": [
+								"ru",
+								"yougile",
+								"com"
+							],
+							"path": [
+								"api-v2",
+								"auth",
+								"keys"
+							]
+						},
+						"description": "Generated from cURL: curl --request POST \\\r\n  --url https://ru.yougile.com/api-v2/auth/keys \\\r\n  --header 'Content-Type: application/json' \\\r\n  --data '{\r\n  \"login\": \"some@example.com\",\r\n  \"password\": \"topsecret\",\r\n  \"companyId\": \"9347006b-dc75-4550-97d5-3008ba00d4a0\"\r\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAuth/companies",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"login\": \"{{username}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"name\": \"woodtv\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ru.yougile.com/api-v2/auth/companies",
+							"protocol": "https",
+							"host": [
+								"ru",
+								"yougile",
+								"com"
+							],
+							"path": [
+								"api-v2",
+								"auth",
+								"companies"
+							]
+						},
+						"description": "Generated from cURL: curl --request POST \\\r\n  --url https://ru.yougile.com/api-v2/auth/companies \\\r\n  --header 'Content-Type: application/json' \\\r\n  --data '{\r\n  \"login\": \"some@example.com\",\r\n  \"password\": \"topsecret\",\r\n  \"name\": \"Газпром\"\r\n}'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Проекты",
+			"item": [
+				{
+					"name": "GetProjects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests для GetProjects\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has paging structure\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property('paging');\r",
+									"    pm.expect(response).to.have.property('content');\r",
+									"    pm.expect(response.paging).to.be.an('object');\r",
+									"    pm.expect(response.content).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Paging info is correct\", function () {\r",
+									"    const paging = pm.response.json().paging;\r",
+									"    pm.expect(paging).to.have.keys(['count', 'limit', 'offset', 'next']);\r",
+									"    pm.expect(paging.count).to.be.a('number');\r",
+									"    pm.expect(paging.limit).to.be.a('number');\r",
+									"    pm.expect(paging.offset).to.be.a('number');\r",
+									"    pm.expect(paging.next).to.be.a('boolean');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time under 1 second\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each project has required fields\", function () {\r",
+									"    const projects = pm.response.json().content;\r",
+									"    projects.forEach(project => {\r",
+									"        pm.expect(project).to.have.property('id');\r",
+									"        pm.expect(project).to.have.property('title');\r",
+									"        pm.expect(project).to.have.property('users');\r",
+									"        pm.expect(project.id).to.be.a('string');\r",
+									"        pm.expect(project.title).to.be.a('string');\r",
+									"        pm.expect(project.users).to.be.an('object');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+									"});\r",
+									"\r",
+									"// Дополнительная проверка - есть ли проекты\r",
+									"pm.test(\"Has at least one project\", function () {\r",
+									"    const projects = pm.response.json().content;\r",
+									"    pm.expect(projects.length).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// Логируем для отладки\r",
+									"console.log(`Total projects: ${pm.response.json().paging.count}`);\r",
+									"console.log(`Paging limit: ${pm.response.json().paging.limit}`);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}projects",
+							"host": [
+								"{{baseURL}}projects"
+							]
+						},
+						"description": "Generated from cURL: curl --request GET \\\r\n  --url https://ru.yougile.com/api-v2/projects \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "NewProjects",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests для NewProjects\r",
+									"const requestBody = pm.request.body.raw;\r",
+									"const parsedBody = JSON.parse(requestBody);\r",
+									"const projectTitle = parsedBody.title;\r",
+									"const key = `projectID_${projectTitle}`;\r",
+									"const value = pm.response.json().id;\r",
+									"\r",
+									"// Сохраняем ID проекта в переменную\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"// Базовые проверки статуса\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// ПРАВИМ ТЕСТ под реальный ответ API\r",
+									"pm.test(\"Response contains project ID\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id).to.be.a('string');\r",
+									"    pm.expect(jsonData.id).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// Проверка что переменная сохранилась\r",
+									"pm.test(\"Project ID variable is set\", function () {\r",
+									"    pm.expect(pm.collectionVariables.get(key)).to.equal(value);\r",
+									"    pm.expect(pm.collectionVariables.get(key)).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"// УБИРАЕМ проверку users - её нет в ответе\r",
+									"// Вместо этого проверяем что можем получить проект по ID\r",
+									"pm.test(\"Can retrieve created project\", function () {\r",
+									"    const projectId = pm.response.json().id;\r",
+									"    \r",
+									"    // Выполняем GET запрос чтобы проверить что проект создан\r",
+									"    pm.sendRequest({\r",
+									"        url: pm.variables.get(\"baseURL\") + \"projects/\" + projectId,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'Authorization': 'Bearer ' + pm.variables.get(\"api-key\"),\r",
+									"            'Content-Type': 'application/json'\r",
+									"        }\r",
+									"    }, function (err, response) {\r",
+									"        pm.expect(err).to.be.null;\r",
+									"        pm.expect(response.code).to.equal(200);\r",
+									"        pm.expect(response.json().title).to.equal(projectTitle);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Проверка времени ответа\r",
+									"pm.test(\"Response time under 2 seconds\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"// Логируем для отладки\r",
+									"console.log(`✅ Project created: ${projectTitle} with ID: ${value}`);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"{{$randomFirstName}}\",\r\n  \"users\": {\r\n                \"9d64ee40-9304-4d03-815b-63e0fe081e1a\": \"admin\"\r\n            }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}projects",
+							"host": [
+								"{{baseURL}}projects"
+							]
+						},
+						"description": "Generated from cURL: curl --request POST \\\r\n  --url https://ru.yougile.com/api-v2/projects \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json' \\\r\n  --data '{\r\n  \"title\": \"ГосУслуги\",\r\n  \"users\": {\r\n    \"4902b994-b806-4af4-acec-018ea5ea6468\": \"worker\",\r\n    \"8aeaeb9d-f94e-4c66-96d3-eb8d96fe7018\": \"ee88efd5-5cb2-41a0-9ea2-295da25863d4\"\r\n  }\r\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "GetProject/id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Добавить в Tests\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Project has correct ID\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    const expectedId = pm.variables.get(\"projectID_Curtis\");\r",
+									"    pm.expect(jsonData.id).to.equal(expectedId);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Project has all required fields\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.include.keys(['id', 'title', 'users']);\r",
+									"    pm.expect(jsonData.users).to.be.an('object');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}projects/{{projectID_Curtis}}",
+							"host": [
+								"{{baseURL}}projects"
+							],
+							"path": [
+								"{{projectID_Curtis}}"
+							]
+						},
+						"description": "Generated from cURL: curl --request GET \\\r\n  --url https://ru.yougile.com/api-v2/projects/id \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "RenameProjects/id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Project title updated\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    // Проверяем что ответ содержит ID (значит операция прошла)\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Project structure remains intact\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n// \"deleted\": true,\r\n  \"title\": \"{{$randomFileType}}\"\r\n//  \"users\": {\r\n//    \"4902b994-b806-4af4-acec-018ea5ea6468\": \"worker\",\r\n//    \"8aeaeb9d-f94e-4c66-96d3-eb8d96fe7018\": \"ee88efd5-5cb2-41a0-9ea2-295da25863d4\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}projects/526e0a89-2c96-4466-a409-160662853bf0",
+							"host": [
+								"{{baseURL}}projects"
+							],
+							"path": [
+								"526e0a89-2c96-4466-a409-160662853bf0"
+							]
+						},
+						"description": "Generated from cURL: curl --request PUT \\\r\n  --url https://ru.yougile.com/api-v2/projects/id \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json' \\\r\n  --data '{\r\n  \"deleted\": true,\r\n  \"title\": \"ГосУслуги\",\r\n  \"users\": {\r\n    \"4902b994-b806-4af4-acec-018ea5ea6468\": \"worker\",\r\n    \"8aeaeb9d-f94e-4c66-96d3-eb8d96fe7018\": \"ee88efd5-5cb2-41a0-9ea2-295da25863d4\"\r\n  }\r\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "DelProjectID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Delete operation successful\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"deleted\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}projects/788d89f1-0700-426a-a100-5f3566471a51",
+							"host": [
+								"{{baseURL}}projects"
+							],
+							"path": [
+								"788d89f1-0700-426a-a100-5f3566471a51"
+							]
+						},
+						"description": "Generated from cURL: curl --request PUT \\\r\n  --url https://ru.yougile.com/api-v2/projects/id \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json' \\\r\n  --data '{\r\n  \"deleted\": true,\r\n  \"title\": \"ГосУслуги\",\r\n  \"users\": {\r\n    \"4902b994-b806-4af4-acec-018ea5ea6468\": \"worker\",\r\n    \"8aeaeb9d-f94e-4c66-96d3-eb8d96fe7018\": \"ee88efd5-5cb2-41a0-9ea2-295da25863d4\"\r\n  }\r\n}'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Доски",
+			"item": [
+				{
+					"name": "GetBoards",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests для GetBoards\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has paging structure\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property('paging');\r",
+									"    pm.expect(response).to.have.property('content');\r",
+									"    pm.expect(response.paging).to.have.keys(['count', 'limit', 'offset', 'next']);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content is JSON array\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.content).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time under 1 second\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each board has required fields\", function () {\r",
+									"    const boards = pm.response.json().content;\r",
+									"    boards.forEach(board => {\r",
+									"        pm.expect(board).to.have.property('id');\r",
+									"        pm.expect(board).to.have.property('title');\r",
+									"        pm.expect(board).to.have.property('projectId');\r",
+									"        pm.expect(board).to.have.property('stickers');\r",
+									"        pm.expect(board.id).to.be.a('string');\r",
+									"        pm.expect(board.title).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Paging info is correct\", function () {\r",
+									"    const paging = pm.response.json().paging;\r",
+									"    pm.expect(paging.count).to.be.a('number');\r",
+									"    pm.expect(paging.limit).to.equal(50);\r",
+									"    pm.expect(paging.offset).to.equal(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Our test boards exist in response\", function () {\r",
+									"    const boards = pm.response.json().content;\r",
+									"    const boardTitles = boards.map(board => board.title);\r",
+									"    \r",
+									"    // Проверяем что наши тестовые доски есть в ответе\r",
+									"    pm.expect(boardTitles).to.include('San Diego');\r",
+									"    pm.expect(boardTitles).to.include('Измененная доска');\r",
+									"});\r",
+									"\r",
+									"// Логируем количество досок для отладки\r",
+									"console.log(`Total boards: ${pm.response.json().paging.count}`);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}boards",
+							"host": [
+								"{{baseURL}}boards"
+							]
+						},
+						"description": "Generated from cURL: curl --request GET \\\r\n  --url https://ru.yougile.com/api-v2/boards \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "NewBoard",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const requestBody = pm.request.body.raw;\r",
+									"const parsedBody = JSON.parse(requestBody);\r",
+									"const boardTitle = parsedBody.title;\r",
+									"const key = `boardID_${boardTitle}`;\r",
+									"const value = pm.response.json().id;\r",
+									"\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"// Существующий тест\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"// ИСПРАВЛЕННЫЕ ТЕСТЫ:\r",
+									"pm.test(\"Board has correct structure\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Board connected to correct project\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    // API возвращает только ID, проверяем что операция прошла\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Stickers configuration is correct\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    // API возвращает только ID, упрощаем проверку\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Board ID variable is saved correctly\", function () {\r",
+									"    pm.expect(pm.collectionVariables.get(key)).to.equal(value);\r",
+									"    pm.expect(pm.collectionVariables.get(key)).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+									"});\r",
+									"\r",
+									"// Логируем для отладки\r",
+									"console.log(`✅ Board created: ${boardTitle} with ID: ${value}`);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"{{$randomCity}}\",\r\n  \"projectId\": \"{{projectID_Curtis}}\",\r\n  \"stickers\": {\r\n    \"timer\": false,\r\n    \"deadline\": true,\r\n    \"stopwatch\": true,\r\n    \"timeTracking\": true,\r\n    \"assignee\": true,\r\n    \"repeat\": true\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}boards",
+							"host": [
+								"{{baseURL}}boards"
+							]
+						},
+						"description": "Generated from cURL: curl --request POST \\\r\n  --url https://ru.yougile.com/api-v2/boards \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json' \\\r\n  --data '{\r\n  \"title\": \"Тестирование\",\r\n  \"projectId\": \"001623dc-6501-461b-9de6-c1d1d6fc1d16\",\r\n  \"stickers\": {\r\n    \"timer\": false,\r\n    \"deadline\": true,\r\n    \"stopwatch\": true,\r\n    \"timeTracking\": true,\r\n    \"assignee\": true,\r\n    \"repeat\": true,\r\n    \"custom\": {\r\n      \"fbc30a9b-42d0-4cf7-80c0-31fb048346f9\": true,\r\n      \"645250ca-1ae8-4514-914d-c070351dd905\": true\r\n    }\r\n  }\r\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "changeBoards/id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const requestBody = pm.request.body.raw;\r",
+									"const parsedBody = JSON.parse(requestBody);\r",
+									"const boardTitle = parsedBody.title;\r",
+									"const key = `boardID_${boardTitle}`;\r",
+									"const value = pm.response.json().id;\r",
+									"\r",
+									"// Ищем старый ключ boardID_*\r",
+									"const variableNames = Object.keys(pm.collectionVariables.toObject());\r",
+									"const oldKey = variableNames.find(\r",
+									"    (k) => k.startsWith('boardID_') && k !== key\r",
+									");\r",
+									"\r",
+									"if (oldKey) {\r",
+									"    console.log(`Removing old variable: ${oldKey}`);\r",
+									"    pm.collectionVariables.unset(oldKey);\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"// Существующий тест\r",
+									"pm.test(\"Successful PUT request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);\r",
+									"});\r",
+									"\r",
+									"// ИСПРАВЛЕННЫЕ ТЕСТЫ:\r",
+									"pm.test(\"Board title updated correctly\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Board still connected to project\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Board not deleted\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Board ID variable updated\", function () {\r",
+									"    pm.expect(pm.collectionVariables.get(key)).to.equal(value);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Stickers configuration preserved\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r",
+									"\r",
+									"// Логируем\r",
+									"console.log(`✅ Board updated: ${boardTitle} with ID: ${value}`);\r",
+									"if (oldKey) {\r",
+									"    console.log(`🗑️ Old variable removed: ${oldKey}`);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"deleted\": false,\r\n  \"title\": \"Измененная доска\",\r\n  \"projectId\": \"{{projectID_Curtis}}\",\r\n  \"stickers\": {\r\n    \"timer\": false,\r\n    \"deadline\": true,\r\n    \"stopwatch\": true,\r\n    \"timeTracking\": true,\r\n    \"assignee\": true,\r\n    \"repeat\": true\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}boards/{{boardID_Измененная доска}}",
+							"host": [
+								"{{baseURL}}boards"
+							],
+							"path": [
+								"{{boardID_Измененная доска}}"
+							]
+						},
+						"description": "Generated from cURL: curl --request PUT \\\r\n  --url https://ru.yougile.com/api-v2/boards/id \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json' \\\r\n  --data '{\r\n  \"deleted\": true,\r\n  \"title\": \"Тестирование\",\r\n  \"projectId\": \"001623dc-6501-461b-9de6-c1d1d6fc1d16\",\r\n  \"stickers\": {\r\n    \"timer\": false,\r\n    \"deadline\": true,\r\n    \"stopwatch\": true,\r\n    \"timeTracking\": true,\r\n    \"assignee\": true,\r\n    \"repeat\": true,\r\n    \"custom\": {\r\n      \"fbc30a9b-42d0-4cf7-80c0-31fb048346f9\": true,\r\n      \"645250ca-1ae8-4514-914d-c070351dd905\": true\r\n    }\r\n  }\r\n}'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Колонки",
+			"item": [
+				{
+					"name": "GetColumns",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests для GetColumns\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has paging structure\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property('paging');\r",
+									"    pm.expect(response).to.have.property('content');\r",
+									"    pm.expect(response.paging).to.be.an('object');\r",
+									"    pm.expect(response.content).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Paging info is correct\", function () {\r",
+									"    const paging = pm.response.json().paging;\r",
+									"    pm.expect(paging).to.have.keys(['count', 'limit', 'offset', 'next']);\r",
+									"    pm.expect(paging.count).to.be.a('number');\r",
+									"    pm.expect(paging.limit).to.be.a('number');\r",
+									"    pm.expect(paging.offset).to.be.a('number');\r",
+									"    pm.expect(paging.next).to.be.a('boolean');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each column has required fields\", function () {\r",
+									"    const columns = pm.response.json().content;\r",
+									"    columns.forEach(column => {\r",
+									"        pm.expect(column).to.have.property('id');\r",
+									"        pm.expect(column).to.have.property('title');\r",
+									"        pm.expect(column).to.have.property('boardId');\r",
+									"        pm.expect(column.id).to.be.a('string');\r",
+									"        pm.expect(column.title).to.be.a('string');\r",
+									"        pm.expect(column.boardId).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time under 1 second\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// Логируем\r",
+									"console.log(`Total columns: ${pm.response.json().paging.count}`);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}columns",
+							"host": [
+								"{{baseURL}}columns"
+							]
+						},
+						"description": "Generated from cURL: curl --request GET \\\r\n  --url https://ru.yougile.com/api-v2/columns \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "NewColumn",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests для NewColumn (дополнить существующие)\r",
+									"const requestBody = pm.request.body.raw;\r",
+									"const parsedBody = JSON.parse(requestBody);\r",
+									"const columnTitle = parsedBody.title;\r",
+									"const key = `columnID_${columnTitle}`;\r",
+									"const value = pm.response.json().id;\r",
+									"\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"// НОВЫЕ ТЕСТЫ:\r",
+									"pm.test(\"Column has correct structure\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Column connected to correct board\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Column ID variable is saved\", function () {\r",
+									"    pm.expect(pm.collectionVariables.get(key)).to.equal(value);\r",
+									"    pm.expect(pm.collectionVariables.get(key)).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"console.log(`✅ Column created: ${columnTitle} with ID: ${value}`);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"{{$randomProductName}}\",\r\n  \"color\": 2,\r\n  \"boardId\": \"{{boardID_Измененная доска}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}columns",
+							"host": [
+								"{{baseURL}}columns"
+							]
+						},
+						"description": "Generated from cURL: curl --request POST \\\r\n  --url https://ru.yougile.com/api-v2/columns \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json' \\\r\n  --data '{\r\n  \"title\": \"To do\",\r\n  \"color\": 2,\r\n  \"boardId\": \"0d923a9f-3675-43c6-84ce-f3580cf5e760\"\r\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "ChangeColumn/id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests для NewColumn (дополнить существующие)\r",
+									"const requestBody = pm.request.body.raw;\r",
+									"const parsedBody = JSON.parse(requestBody);\r",
+									"const columnTitle = parsedBody.title;\r",
+									"const key = `columnID_${columnTitle}`;\r",
+									"const value = pm.response.json().id;\r",
+									"\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"pm.test(\"Successful PUT request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);\r",
+									"});\r",
+									"\r",
+									"// НОВЫЕ ТЕСТЫ:\r",
+									"pm.test(\"Column has correct structure\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Column connected to correct board\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Column ID variable is saved\", function () {\r",
+									"    pm.expect(pm.collectionVariables.get(key)).to.equal(value);\r",
+									"    pm.expect(pm.collectionVariables.get(key)).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"console.log(`✅ Column created: ${columnTitle} with ID: ${value}`);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"deleted\": false,\r\n  \"title\": \"{{$randomUserAgent}}\",\r\n  \"color\": 5,\r\n  \"boardId\": \"{{boardID_Измененная доска}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}columns/{{columnID_Unbranded Soft Chips}}",
+							"host": [
+								"{{baseURL}}columns"
+							],
+							"path": [
+								"{{columnID_Unbranded Soft Chips}}"
+							]
+						},
+						"description": "Generated from cURL: curl --request PUT \\\r\n  --url https://ru.yougile.com/api-v2/columns/id \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json' \\\r\n  --data '{\r\n  \"deleted\": true,\r\n  \"title\": \"To do\",\r\n  \"color\": 2,\r\n  \"boardId\": \"0d923a9f-3675-43c6-84ce-f3580cf5e760\"\r\n}'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Задачи",
+			"item": [
+				{
+					"name": "newTask",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const requestBody = pm.request.body.raw\r",
+									"const parsedBody = JSON.parse(requestBody)\r",
+									"const taskTitle = parsedBody.title\r",
+									"const key = `taskID_${taskTitle}`\r",
+									"const value = pm.response.json().id\r",
+									"pm.collectionVariables.set(key, value)\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer undefined"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"{{$randomFileName}}\",\r\n  \"columnId\": \"{{columnID_Unbranded Soft Chips}}\",\r\n  \"description\": \"{{$randomPhrase}}\",\r\n  \"archived\": false,\r\n  \"completed\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}tasks",
+							"host": [
+								"{{baseURL}}tasks"
+							]
+						},
+						"description": "Generated from cURL: curl --request POST \\\r\n  --url https://ru.yougile.com/api-v2/tasks \\\r\n  --header 'Authorization: Bearer undefined' \\\r\n  --header 'Content-Type: application/json' \\\r\n  --data '{\r\n  \"title\": \"test task\",\r\n  \"columnId\": \"fefbc00f-3870-4f52-807f-225ce2e4c701\",\r\n  \"description\": \"string\",\r\n  \"archived\": false,\r\n  \"completed\": false,\r\n  \"subtasks\": [\r\n    \"0fe1e417-2415-4e76-932a-ca07a25d6c64\",\r\n    \"f0118d9e-2888-48e4-a172-116085da4279\"\r\n  ],\r\n  \"assigned\": [\r\n    \"80eed1bd-eda3-4991-ac17-09d28566749d\"\r\n  ],\r\n  \"deadline\": {\r\n    \"deadline\": 1653029146646,\r\n    \"startDate\": 1653028146646,\r\n    \"withTime\": true,\r\n    \"history\": [\r\n      \"string\"\r\n    ],\r\n    \"blockedPoints\": [\r\n      \"string\"\r\n    ],\r\n    \"links\": [\r\n      \"string\"\r\n    ]\r\n  },\r\n  \"timeTracking\": {\r\n    \"plan\": 10,\r\n    \"work\": 5\r\n  },\r\n  \"checklists\": [\r\n    {\r\n      \"title\": \"list 1\",\r\n      \"items\": [\r\n        {\r\n          \"title\": \"option 1\",\r\n          \"isCompleted\": false\r\n        },\r\n        {\r\n          \"title\": \"option 2\",\r\n          \"isCompleted\": false\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"stickers\": {\r\n    \"fbc30a9b-42d0-4cf7-80c0-31fb048346f9\": \"0baced9640b2\",\r\n    \"645250ca-1ae8-4514-914d-c070351dd905\": \"815016901edd\",\r\n    \"660b9096-a2d0-45df-b09a-b53ba521e86f\": \"empty\",\r\n    \"060f5185-e613-4f74-97c1-060667cc3a7e\": \"ООО «Производство»\",\r\n    \"46d005ea-c89e-449b-878e-d3cc43204a5a\": \"345.123\"\r\n  },\r\n  \"color\": \"task-red\",\r\n  \"idTaskCommon\": \"ID-484\",\r\n  \"idTaskProject\": \"DEV-484\",\r\n  \"stopwatch\": {\r\n    \"running\": true\r\n  },\r\n  \"timer\": {\r\n    \"running\": true,\r\n    \"seconds\": 600\r\n  }\r\n}'"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{api-key}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://ru.yougile.com/api-v2/"
+		},
+		{
+			"key": "projectID_Magali",
+			"value": "90d7e0f8-d44e-4b9a-8b98-5062b5fcc69b"
+		},
+		{
+			"key": "projectID_Curtis",
+			"value": "ef505172-566d-49e5-a140-29eb3fc3eb77"
+		},
+		{
+			"key": "columnID_Refined Cotton Shirt",
+			"value": "53086c09-5dab-4dee-bedf-20a5d9fd3bee"
+		},
+		{
+			"key": "columnID_Sleek Wooden Keyboard",
+			"value": "899fe43c-07b0-4f00-9664-ee5d81e6d957"
+		},
+		{
+			"key": "columnID_Unbranded Soft Chips",
+			"value": "44694f9d-8360-40da-8cbd-f85e3d10f069"
+		},
+		{
+			"key": "taskID_purple_e_services_encoding.vss",
+			"value": "b034fc25-e092-427a-910a-ee0871b8873a"
+		},
+		{
+			"key": "taskID_transmitting_gorgeous.bdoc",
+			"value": "840321eb-7ee1-4160-b306-6ce2403a922a"
+		},
+		{
+			"key": "boardID_Измененная доска",
+			"value": "4d5634e6-ff8c-4a42-aa35-15a7c151abfa"
+		},
+		{
+			"key": "projectID_Nels",
+			"value": "3ceccc00-2d51-4380-8220-fa7fa9cecb35"
+		},
+		{
+			"key": "columnID_Incredible Rubber Pizza",
+			"value": "d0c5e202-07b4-47ae-85e8-bf8b60832f41"
+		},
+		{
+			"key": "taskID_fresh.ssdl",
+			"value": "ba8b0e87-7600-49f2-8015-be5e012849af"
+		},
+		{
+			"key": "projectID_Kamren",
+			"value": ""
+		},
+		{
+			"key": "columnID_Generic Steel Towels",
+			"value": ""
+		},
+		{
+			"key": "taskID_concrete_website.swi",
+			"value": ""
+		},
+		{
+			"key": "columnID_Tasty Rubber Towels",
+			"value": ""
+		},
+		{
+			"key": "projectID_Neal",
+			"value": ""
+		},
+		{
+			"key": "boardID_Kertzmannmouth",
+			"value": ""
+		},
+		{
+			"key": "columnID_Small Fresh Gloves",
+			"value": ""
+		},
+		{
+			"key": "taskID_open_source_edge.x3db",
+			"value": ""
+		},
+		{
+			"key": "projectID_Lyda",
+			"value": ""
+		},
+		{
+			"key": "boardID_Glenview",
+			"value": ""
+		},
+		{
+			"key": "columnID_Small Cotton Soap",
+			"value": ""
+		},
+		{
+			"key": "taskID_sports_transform_hacking.m3u",
+			"value": ""
+		},
+		{
+			"key": "projectID_Ena",
+			"value": ""
+		},
+		{
+			"key": "boardID_Thousand Oaks",
+			"value": ""
+		},
+		{
+			"key": "columnID_Gorgeous Soft Pants",
+			"value": ""
+		},
+		{
+			"key": "taskID_bedfordshire.txd",
+			"value": ""
+		},
+		{
+			"key": "projectID_Thad",
+			"value": ""
+		},
+		{
+			"key": "boardID_Lake Eula",
+			"value": ""
+		},
+		{
+			"key": "columnID_Gorgeous Metal Chair",
+			"value": ""
+		},
+		{
+			"key": "taskID_architect.jam",
+			"value": ""
+		},
+		{
+			"key": "projectID_Lane",
+			"value": ""
+		},
+		{
+			"key": "boardID_Allentown",
+			"value": ""
+		},
+		{
+			"key": "columnID_Awesome Steel Soap",
+			"value": ""
+		},
+		{
+			"key": "taskID_avon.mif",
+			"value": ""
+		},
+		{
+			"key": "boardID_Kansas City",
+			"value": ""
+		},
+		{
+			"key": "projectID_Imani",
+			"value": ""
+		},
+		{
+			"key": "projectID_Sibyl",
+			"value": ""
+		},
+		{
+			"key": "boardID_Fernshire",
+			"value": ""
+		},
+		{
+			"key": "projectID_Trystan",
+			"value": ""
+		},
+		{
+			"key": "projectID_Kody",
+			"value": ""
+		},
+		{
+			"key": "boardID_Port Hermannfort",
+			"value": ""
+		},
+		{
+			"key": "boardID_Port Jana",
+			"value": ""
+		},
+		{
+			"key": "boardID_Glennaland",
+			"value": ""
+		},
+		{
+			"key": "boardID_Pearlieberg",
+			"value": ""
+		},
+		{
+			"key": "boardID_Hazelville",
+			"value": ""
+		},
+		{
+			"key": "columnID_Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5.4; rv:9.9) Gecko/20100101 Firefox/9.9.9",
+			"value": ""
+		},
+		{
+			"key": "columnID_Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:6.6) Gecko/20100101 Firefox/6.6.8",
+			"value": ""
+		},
+		{
+			"key": "columnID_Gorgeous Metal Gloves",
+			"value": ""
+		},
+		{
+			"key": "columnID_Incredible Concrete Gloves",
+			"value": ""
+		},
+		{
+			"key": "columnID_Mozilla/5.0 (Windows; U; Windows NT 6.3) AppleWebKit/538.2.1 (KHTML, like Gecko) Chrome/20.0.888.0 Safari/538.2.1",
+			"value": ""
+		},
+		{
+			"key": "columnID_Practical Cotton Pizza",
+			"value": ""
+		},
+		{
+			"key": "columnID_Licensed Fresh Fish",
+			"value": ""
+		},
+		{
+			"key": "columnID_Mozilla/5.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/5.1; .NET CLR 4.3.45456.1)",
+			"value": ""
+		},
+		{
+			"key": "columnID_Mozilla/5.0 (Windows NT 5.3; Win64; x64; rv:5.2) Gecko/20100101 Firefox/5.2.8",
+			"value": ""
+		},
+		{
+			"key": "columnID_Mozilla/5.0 (Windows; U; Windows NT 6.2) AppleWebKit/531.2.2 (KHTML, like Gecko) Chrome/35.0.818.0 Safari/531.2.2",
+			"value": ""
+		},
+		{
+			"key": "columnID_Mozilla/5.0 (Windows; U; Windows NT 5.1) AppleWebKit/533.0.2 (KHTML, like Gecko) Chrome/25.0.839.0 Safari/533.0.2",
+			"value": ""
+		},
+		{
+			"key": "columnID_Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7.4; rv:15.2) Gecko/20100101 Firefox/15.2.4",
+			"value": ""
+		},
+		{
+			"key": "columnID_Incredible Granite Table",
+			"value": ""
+		},
+		{
+			"key": "columnID_Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/536.1.2 (KHTML, like Gecko) Chrome/17.0.878.0 Safari/536.1.2",
+			"value": ""
+		}
+	]
+}

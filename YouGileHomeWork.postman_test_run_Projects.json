@@ -1,0 +1,267 @@
+{
+	"id": "e7393dcc-5ed6-48a0-ab2a-99cb918de317",
+	"name": "YouGileHomeWork",
+	"timestamp": "2025-10-26T15:26:30.721Z",
+	"collection_id": "47960389-da4b2fda-016c-4d16-835b-8243af3aad72",
+	"folder_id": "47960389-7679b12f-8595-4be7-af02-b07f291ab4c8",
+	"environment_id": "47960389-96b0cabf-8be6-4492-921e-7343d60e6bbf",
+	"totalPass": 19,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-10-26T15:26:28.166Z",
+	"totalFail": 1,
+	"results": [
+		{
+			"id": "91ff2741-d9f6-4cde-a5b3-486a672c4b51",
+			"name": "GetProjects",
+			"url": "https://ru.yougile.com/api-v2/projects",
+			"time": 1029,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response has paging structure": true,
+				"Paging info is correct": true,
+				"Response time under 1 second": false,
+				"Each project has required fields": true,
+				"Content-Type is application/json": true,
+				"Has at least one project": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has paging structure": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Paging info is correct": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time under 1 second": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Each project has required fields": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content-Type is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Has at least one project": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1029
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response has paging structure": true,
+					"Paging info is correct": true,
+					"Response time under 1 second": false,
+					"Each project has required fields": true,
+					"Content-Type is application/json": true,
+					"Has at least one project": true
+				}
+			]
+		},
+		{
+			"id": "9df258d5-4ee0-4c27-b6a8-fe3029b59db1",
+			"name": "NewProjects",
+			"url": "https://ru.yougile.com/api-v2/projects",
+			"time": 117,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Response contains project ID": true,
+				"Project ID variable is set": true,
+				"Can retrieve created project": true,
+				"Response time under 2 seconds": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains project ID": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Project ID variable is set": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Can retrieve created project": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time under 2 seconds": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				117
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Response contains project ID": true,
+					"Project ID variable is set": true,
+					"Can retrieve created project": true,
+					"Response time under 2 seconds": true
+				}
+			]
+		},
+		{
+			"id": "6288307b-6298-4fcd-b38b-47ef87b64813",
+			"name": "GetProject/id",
+			"url": "https://ru.yougile.com/api-v2/projects/ef505172-566d-49e5-a140-29eb3fc3eb77",
+			"time": 97,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Project has correct ID": true,
+				"Project has all required fields": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Project has correct ID": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Project has all required fields": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				97
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Project has correct ID": true,
+					"Project has all required fields": true
+				}
+			]
+		},
+		{
+			"id": "a319f11c-28ed-4b77-bba2-83171a786dba",
+			"name": "RenameProjects/id",
+			"url": "https://ru.yougile.com/api-v2/projects/526e0a89-2c96-4466-a409-160662853bf0",
+			"time": 99,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Project title updated": true,
+				"Project structure remains intact": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Project title updated": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Project structure remains intact": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				99
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Project title updated": true,
+					"Project structure remains intact": true
+				}
+			]
+		},
+		{
+			"id": "c98ecbb1-3d3a-489a-b062-68d6ecadad16",
+			"name": "DelProjectID",
+			"url": "https://ru.yougile.com/api-v2/projects/788d89f1-0700-426a-a100-5f3566471a51",
+			"time": 119,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Delete operation successful": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Delete operation successful": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				119
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Delete operation successful": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 1461,
+	"collection": {
+		"requests": [
+			{
+				"id": "91ff2741-d9f6-4cde-a5b3-486a672c4b51",
+				"method": "GET"
+			},
+			{
+				"id": "9df258d5-4ee0-4c27-b6a8-fe3029b59db1",
+				"method": "POST"
+			},
+			{
+				"id": "6288307b-6298-4fcd-b38b-47ef87b64813",
+				"method": "GET"
+			},
+			{
+				"id": "a319f11c-28ed-4b77-bba2-83171a786dba",
+				"method": "PUT"
+			},
+			{
+				"id": "c98ecbb1-3d3a-489a-b062-68d6ecadad16",
+				"method": "PUT"
+			}
+		]
+	}
+}

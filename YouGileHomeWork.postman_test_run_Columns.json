@@ -1,0 +1,187 @@
+{
+	"id": "af2106e9-3003-4daf-9366-1a1b592cd8ef",
+	"name": "YouGileHomeWork",
+	"timestamp": "2025-10-26T15:48:30.377Z",
+	"collection_id": "47960389-da4b2fda-016c-4d16-835b-8243af3aad72",
+	"folder_id": "47960389-560a5b6d-392f-4604-86c7-e6b301044f04",
+	"environment_id": "47960389-96b0cabf-8be6-4492-921e-7343d60e6bbf",
+	"totalPass": 14,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-10-26T15:48:28.679Z",
+	"totalFail": 1,
+	"results": [
+		{
+			"id": "e63478a4-3596-4dd3-ad4a-ea6138614e99",
+			"name": "GetColumns",
+			"url": "https://ru.yougile.com/api-v2/columns",
+			"time": 375,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response has paging structure": true,
+				"Paging info is correct": true,
+				"Each column has required fields": true,
+				"Response time under 1 second": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has paging structure": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Paging info is correct": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each column has required fields": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time under 1 second": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				375
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response has paging structure": true,
+					"Paging info is correct": true,
+					"Each column has required fields": true,
+					"Response time under 1 second": true
+				}
+			]
+		},
+		{
+			"id": "2024b9fb-a71a-4e5f-93bc-b82110501f63",
+			"name": "NewColumn",
+			"url": "https://ru.yougile.com/api-v2/columns",
+			"time": 292,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Successful POST request": true,
+				"Column has correct structure": true,
+				"Column connected to correct board": true,
+				"Column ID variable is saved": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"Successful POST request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Column has correct structure": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Column connected to correct board": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Column ID variable is saved": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				292
+			],
+			"allTests": [
+				{
+					"Successful POST request": true,
+					"Column has correct structure": true,
+					"Column connected to correct board": true,
+					"Column ID variable is saved": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "1122b59c-310f-4aa9-89e3-448d38708821",
+			"name": "ChangeColumn/id",
+			"url": "https://ru.yougile.com/api-v2/columns/44694f9d-8360-40da-8cbd-f85e3d10f069",
+			"time": 125,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful POST request": false,
+				"Column has correct structure": true,
+				"Column connected to correct board": true,
+				"Column ID variable is saved": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"Successful POST request": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Column has correct structure": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Column connected to correct board": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Column ID variable is saved": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				125
+			],
+			"allTests": [
+				{
+					"Successful POST request": false,
+					"Column has correct structure": true,
+					"Column connected to correct board": true,
+					"Column ID variable is saved": true,
+					"Response time is acceptable": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 792,
+	"collection": {
+		"requests": [
+			{
+				"id": "e63478a4-3596-4dd3-ad4a-ea6138614e99",
+				"method": "GET"
+			},
+			{
+				"id": "2024b9fb-a71a-4e5f-93bc-b82110501f63",
+				"method": "POST"
+			},
+			{
+				"id": "1122b59c-310f-4aa9-89e3-448d38708821",
+				"method": "PUT"
+			}
+		]
+	}
+}

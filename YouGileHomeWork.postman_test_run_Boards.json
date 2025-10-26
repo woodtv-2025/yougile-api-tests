@@ -1,0 +1,211 @@
+{
+	"id": "16893b47-d0a4-46be-9714-bf79e6989599",
+	"name": "YouGileHomeWork",
+	"timestamp": "2025-10-26T15:34:32.459Z",
+	"collection_id": "47960389-da4b2fda-016c-4d16-835b-8243af3aad72",
+	"folder_id": "47960389-c71dfd19-3ecc-4314-8ca9-0c93b667cd51",
+	"environment_id": "47960389-96b0cabf-8be6-4492-921e-7343d60e6bbf",
+	"totalPass": 19,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-10-26T15:34:31.309Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "67287e3a-f7b8-449f-8a5c-23b19999ceb0",
+			"name": "GetBoards",
+			"url": "https://ru.yougile.com/api-v2/boards",
+			"time": 117,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response has paging structure": true,
+				"Content is JSON array": true,
+				"Response time under 1 second": true,
+				"Each board has required fields": true,
+				"Paging info is correct": true,
+				"Our test boards exist in response": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has paging structure": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content is JSON array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time under 1 second": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each board has required fields": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Paging info is correct": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Our test boards exist in response": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				117
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response has paging structure": true,
+					"Content is JSON array": true,
+					"Response time under 1 second": true,
+					"Each board has required fields": true,
+					"Paging info is correct": true,
+					"Our test boards exist in response": true
+				}
+			]
+		},
+		{
+			"id": "c6019aff-3a13-40ed-ad65-5bb94dde2c6f",
+			"name": "NewBoard",
+			"url": "https://ru.yougile.com/api-v2/boards",
+			"time": 117,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Successful POST request": true,
+				"Board has correct structure": true,
+				"Board connected to correct project": true,
+				"Stickers configuration is correct": true,
+				"Board ID variable is saved correctly": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"Successful POST request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Board has correct structure": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Board connected to correct project": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Stickers configuration is correct": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Board ID variable is saved correctly": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				117
+			],
+			"allTests": [
+				{
+					"Successful POST request": true,
+					"Board has correct structure": true,
+					"Board connected to correct project": true,
+					"Stickers configuration is correct": true,
+					"Board ID variable is saved correctly": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "230c6dd0-bbe4-4822-939c-4fe9212cc6cd",
+			"name": "changeBoards/id",
+			"url": "https://ru.yougile.com/api-v2/boards/4d5634e6-ff8c-4a42-aa35-15a7c151abfa",
+			"time": 118,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful PUT request": true,
+				"Board title updated correctly": true,
+				"Board still connected to project": true,
+				"Board not deleted": true,
+				"Board ID variable updated": true,
+				"Stickers configuration preserved": true
+			},
+			"testPassFailCounts": {
+				"Successful PUT request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Board title updated correctly": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Board still connected to project": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Board not deleted": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Board ID variable updated": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Stickers configuration preserved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				118
+			],
+			"allTests": [
+				{
+					"Successful PUT request": true,
+					"Board title updated correctly": true,
+					"Board still connected to project": true,
+					"Board not deleted": true,
+					"Board ID variable updated": true,
+					"Stickers configuration preserved": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 352,
+	"collection": {
+		"requests": [
+			{
+				"id": "67287e3a-f7b8-449f-8a5c-23b19999ceb0",
+				"method": "GET"
+			},
+			{
+				"id": "c6019aff-3a13-40ed-ad65-5bb94dde2c6f",
+				"method": "POST"
+			},
+			{
+				"id": "230c6dd0-bbe4-4822-939c-4fe9212cc6cd",
+				"method": "PUT"
+			}
+		]
+	}
+}
